@@ -1,3 +1,3 @@
 #! /usr/bin/sh
-python pip install -r requirement.txt
+python pip install -r requirements.txt
 python format.py
