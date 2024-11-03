@@ -36,7 +36,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build Pages
-        run: sudo dnf update && sudo dnf install -y python3.12 && sh build.sh
+        run: sudo dnf update -y && sudo dnf install -y python3.12 && sh build.sh
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
