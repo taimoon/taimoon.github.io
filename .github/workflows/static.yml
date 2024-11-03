@@ -39,7 +39,7 @@ jobs:
           python-version: '3.12' 
           cache: 'pip' # caching pip dependencies
       - name: Build Pages
-        run: sh build.sh
+        run: python format.py
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
