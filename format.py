@@ -120,6 +120,7 @@ def fix_img_path(e: etree._Element, inp: str, out: str) -> None:
     
     for img in e.xpath('//img'):
         img: etree._Element
+        img.attrib['loading'] = 'lazy'
         img.attrib['src'] = os.path.join('/images',html_dir,img.attrib['src'])
 
 def fix_extra_line_footnote(e: etree._Element):
@@ -144,22 +145,35 @@ def templatize(e: etree._Element, title: str, date: str, license: str, lang: str
     if e.xpath('//code') != []:
         head.extend([
             ['link', {'rel': 'stylesheet', 'href': 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css'}],
-            ['script', {'src': 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js'}, ''],
-            ['script', 'hljs.highlightAll();'],
+            ['script', {'id': 'ajax-highlight',
+                        'defer': '',
+                        'src': 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js'},
+             ''],
+            ['script', 
+             """
+              document.addEventListener('DOMContentLoaded', function() {
+                    var element = document.getElementById('ajax-highlight');
+                    if (element) {
+                        hljs.highlightAll();
+                    }
+                });
+             """],
         ])
 
     # mathjax, with inline enable
     head.extend([
-    ['script', {'id': 'MathJax-script', 'src': 'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'}, ''],
-    ['script',
-    """
+    ['script', {'id': 'MathJax-script-forreal',
+                'defer': '',
+                'src': 'https://cdn.mathjax.org/mathjax/2.7-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'},
+     """
     MathJax.Hub.Config({
         tex2jax: {
         inlineMath: [ ['$','$'] ],
         processEscapes: true
         }
     });
-    """],])
+    """],
+    ])
     header = ['header',
               ['nav',
                ['ul',
