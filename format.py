@@ -103,21 +103,6 @@ def markdown_to_html(path: str) -> tuple[str, dict[str, json_ty]]:
     html = markdown.Markdown(extensions=['extra']).convert(content)
     return html, md
 
-"""
-def collect_tags(e: etree._Element|etree._ElementTree) -> set[str]:
-    '''
-    for development use
-    '''
-    def recur(e: etree._Element) -> set[str]:
-        # getchildren will return empty list, thus terminate the function
-        return reduce(set.union,
-                      [recur(_e) for _e in e.getchildren()],{e.tag})
-    if isinstance(e, etree._ElementTree):
-        return recur(e.getroot())
-    else:
-        return recur(e)
-"""
-
 def convert_metadata(md: dict[str, json_ty]) -> dict[str, json_ty]:
     return {
      'date' : md.get('date',date.today().strftime('%Y-%m-%d')),
