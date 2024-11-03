@@ -1,0 +1,29 @@
+html {
+    font-family: sans-serif;
+}
+
+main {
+    margin: auto;
+    max-width: 90vw;
+}
+
+main p img {
+    display: block;
+    /* 
+        width are set such that
+        pc reader can zoom out to see the details
+        otherwise, maintain size relative to the view
+     */
+    min-width: 50em;
+    max-width: 70vw;
+}
+
+header nav ul {
+    /* to make nav list display horizontally */
+    display: flex;
+}
+
+header nav li {
+    list-style: none;
+    margin: 0.5em;
+}
