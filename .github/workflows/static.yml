@@ -31,14 +31,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Python # Set Python version
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.12
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12' 
+          cache: 'pip' # caching pip dependencies
       - name: Build Pages
-        run: sudo apt update -y && sudo apt install python3.12-pip && sh build.sh
+        run: sh build.sh
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
