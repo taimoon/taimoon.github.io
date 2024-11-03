@@ -34,7 +34,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build Pages
-        run: sudo apt update && sudo apt install -y python3 && sh build.sh
+        run: sudo apt update && sudo apt install -y python3.12 && sh build.sh
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

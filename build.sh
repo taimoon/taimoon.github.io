@@ -4,4 +4,4 @@ if [ ! -d "venv" ]; then
     pip3 install -r requirement.txt
 fi
 source venv/bin/activate
-python3 format.py
+python3.12 format.py
