@@ -1,0 +1,187 @@
+<html lang="zh">
+  <head>
+    <meta date="2024-10-30"/>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width" initial-scale="1.0"/>
+    <link rel="stylesheet" href="/style.css"/>
+    <title>类型应用入门零</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css"/>
+    <script id="ajax-highlight" defer="" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>
+              document.addEventListener('DOMContentLoaded', function() {
+                    var element = document.getElementById('ajax-highlight');
+                    if (element) {
+                        hljs.highlightAll();
+                    }
+                });
+             </script>
+    <script id="MathJax-script-forreal" defer="" src="https://cdn.mathjax.org/mathjax/2.7-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+        }
+    });
+    </script>
+  </head>
+  <header>
+    <nav>
+      <ul>
+        <li>
+          <a href="/zh/index.html">home</a>
+        </li>
+        <li>
+          <a href="/zh/about/关于.html">about</a>
+        </li>
+        <li>
+          <a href="/en/type-system-intro/type-system-0/type-system-0.html">English</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <main><p>date: 2024-10-30</p><h1>类型应用入门零</h1>
+<h1>前言</h1>
+<p>近来上司开始鼓励同事们用pydantic让ETL源码更加可靠。
+不过，一般大学计课程不会教同学们类型论基础。
+因此，我同事们不熟悉。
+相关入门也比较匮乏，故此我写以下笔记。</p>
+<h1>前置</h1>
+<p>面向python的开发者，但只要求读者至少会一门编程语言。</p>
+<h1>使用类型系统的收益</h1>
+<p>以Python为例</p>
+<p>类型标注可以现代IDE代码补全更加智能/type hints得以可能：比如依据对象类型自动列举相关办法，文档。
+<img alt="without pylance" src="/images/type-system-intro/type-system-0/without-pylance.png" loading="lazy"/>
+没有标注<code>s</code>形参类型
+<img alt="with pylance" src="/images/type-system-intro/type-system-0/with-pylance.png" loading="lazy"/>
+标注<code>s</code>形参类型后
+<img alt="show documentation" src="/images/type-system-intro/type-system-0/show-doc.png" loading="lazy"/>
+因<code>s</code>是string类型而string有<code>capitalize</code>的函数
+所以vscode显示<code>capitalize</code>的文档</p>
+<p>类型标注比注释是更好的文档，也是一种实现和调用双方的契约
+<img alt="self documentation" src="/images/type-system-intro/type-system-0/self-documentation.png" loading="lazy"/></p>
+<p>图上为<code>extract_brn</code>的函数定义，其他开发者可以依据型参类型来合规地调用。</p>
+<pre><code class="language-py">extract_brn(123)
+extract_brn(None)
+extract_brn(true)
+</code></pre>
+<p>如果如上调用，调用方可以默认以上程序是可以出错，
+因为<code>extract_brn</code>函数假设形参<code>s</code>为string,
+如果程序使用其他类型的数据传参，就已经破坏这个前提，
+该函数的开发者可以因此不保证其正确运行。</p>
+<h1>如何推导类型？</h1>
+<p>注：作者使用”类型推理“特指type inference, 类型推导特指”type derivation“</p>
+<pre><code class="language-py">1 : int
+</code></pre>
+<p>朗读出来</p>
+<blockquote>
+<p>1是integer类型</p>
+</blockquote>
+<p>以下是加法类型规则</p>
+<pre><code class="language-py">e1 : int
+e2 : int
+---
+e1 + e2 : int
+</code></pre>
+<p>朗读出来</p>
+<blockquote>
+<p>如果两个相加的类型都是integer类型，那么结果的类型也是integer。</p>
+</blockquote>
+<p>如果找不到对应的规则，就是类型错误。</p>
+<p>例子一,</p>
+<pre><code class="language-py">2 : int
+3 : int
+---
+2 + 3 : int
+</code></pre>
+<p>例子二,</p>
+<pre><code class="language-py">2 + 3   : int
+5       : int
+---
+2 + 3 + 5 : int
+</code></pre>
+<p>例子三,</p>
+<pre><code class="language-py">'2' : str
+3   : int
+---
+'2' + 3 : error
+</code></pre>
+<h1>知道类型是如何可以帮助你诊断问题</h1>
+<p>假设以下规则和前提是正确</p>
+<pre><code class="language-py">print : ((str, float) -&gt; None)
+input : ((str) -&gt; str)
+
+# multiplication
+f1 : float
+f2 : float
+---
+f1 * f2 : float
+
+# function call 1
+a1 : t1
+fn : ((t1) -&gt; t2)
+---
+fn(a1) : t2
+
+# function call 2
+a1 : t1
+a2 : t2
+fn : ((t1,t2) -&gt; t3)
+---
+fn(a1,a2) : t3
+</code></pre>
+<p>为什么以下<code>python</code>程序会报错?</p>
+<pre><code class="language-py">print("Service Tax is:", input('enter a value:')  * 0.06)
+</code></pre>
+<p>如果推导这程序的类型,</p>
+<pre><code class="language-py">print("Service Tax is:", input('enter a value:')  * 0.06)
+| # use function call 2
+| "Service Tax is:" : str
+| input('enter a value:')  * 0.06
+| | # use multiplication
+| | input('enter a value:')
+| | | # function call 1
+| | | input : ((str) -&gt; str)
+| | | 'enter a value:' : str
+| | input('enter a value:') : str
+| | 0.6 : float
+| error # because float cannot multiply with str
+</code></pre>
+<p>转换<code>input</code>的返回值为浮点，程序就能跑。</p>
+<h1>前传：为什么编程语言会有数据类型</h1>
+<p>很多人都是在C语言入门课，第一次接触到类型</p>
+<pre><code class="language-c">#include&lt;stdio.h&gt;
+
+int max(int x, int y){
+    if(x &lt; y){
+        return y;
+    }else{
+        return x;
+    }
+}
+
+int main(){
+    int x = 17;
+    int y = 13;
+    printf("max(%d, %d) =&gt; %d\n", x, y, max(x, y));
+    return 0;
+}
+</code></pre>
+<p>类型一旦声明错误，什么类型错误的报错会让人摸不着头脑。
+当时C语言设计时代背景，类型声明可以让编译器可以确定数据在内存如何读写。
+C语言前身，B语言，初衷用来写操作系统，无类型，一切数据为字，刚好是寄存器的大小。
+当时PDP-11电脑可以以字节颗度地址来读取内存，而且一个字节刚好可以表示一个ASCII字符。一个16比特字长可以塞两个字符，可以更好利用内存资源。
+由于文本处理需求，Dennis拓展B语言支持字节数据类型。他<del>戏称</del>称之为new B (吐槽：大佬就是不一样，非常牛逼)。
+有些计算机的指令集架构下，浮点运算和整数运算使用各有一套不一样机器指令和寄存器，所以编译器也需要编译相应的指令。</p>
+<p>以上案例，数据类型的引入是自然而然的。</p>
+<h1>拓展阅读</h1>
+<ul>
+<li>Essentials of Programming Languages by Daniel P. Friedman and Mitchell Wand</li>
+<li>Types and Programming Languages by Benjamin C. Pierce</li>
+<li>The Little Typer by Daniel P. Friedman and David Thrane Christiansen</li>
+<li><a href="https://www.manjusaka.blog/posts/2020/03/20/a-simple-history-about-type-hint-in-python/index.html">https://www.manjusaka.blog/posts/2020/03/20/a-simple-history-about-type-hint-in-python/index.html</a></li>
+</ul></main>
+  <footer>
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">COPYRIGHT NOTICE: CC BY-SA 4.0</a>
+    <a href="https://github.com/taimoon">github</a>
+  </footer>
+</html>
