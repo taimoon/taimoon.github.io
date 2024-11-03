@@ -28,15 +28,17 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    container:
-      image: fedora:latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Setup Python # Set Python version
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build Pages
-        run: sudo dnf update -y && sudo dnf install -y python3.12 python3.12-devel && sh build.sh
+        run: sh build.sh
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
