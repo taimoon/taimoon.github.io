@@ -226,7 +226,7 @@ def create_home(metadatas: list[dict[str, json_ty]], out: str, lang: str) -> Non
 
     index = {
         w['metadata']['category']:
-        [[v['title'], v['url']] for v in metadatas
+        [[v['metadata']['title'], v['url']] for v in metadatas
          if v['metadata']['category'] == w['metadata']['category']]
         for w in metadatas
     }
