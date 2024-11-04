@@ -28,6 +28,7 @@ LANG_NAMES = {
 
 CONTACT = {
     'github': 'https://github.com/taimoon',
+    'RSS': 'https://tengman.moe/atom.xml'
 }
 
 def get_parent_director(p: str) -> str:
@@ -241,6 +242,34 @@ def create_home(metadatas: list[dict[str, json_ty]], out: str, lang: str) -> Non
     with(open(out, 'wb+')) as f:
         f.write(b)
 
+def atom_feed_entry_sxml(title: str, author: str, link: str, lang: str):
+    return ['entry',
+         {'{http://www.w3.org/XML/1998/namespace}lang': lang},
+         ['title', title],
+         ['author', ['name', author]],
+         ['link', {'href': link}],
+         ['id', link],]
+
+def atom_feed_entry(title: str, author: str, link: str, lang: str) -> etree._Element:
+    return sxml_to_html(atom_feed_entry_sxml(title, author, link, lang))
+
+def create_atom_feed(root: str, metadatas: list[dict[str, json_ty]]) -> None:
+    e = ['feed',
+     {'xmlns': "http://www.w3.org/2005/Atom",
+      '{http://www.w3.org/XML/1998/namespace}lang': 'en'
+      },
+     ['title', 'tengman.moe'],
+     ['link', {'href': 'https://tengman.moe/'}],
+     *[atom_feed_entry_sxml(md['metadata']['title'],
+                      md['metadata']['author'],
+                      f'https://tengman.moe/{md['url']}',
+                      md['metadata']['lang']) for md in metadatas]
+    ]
+    e = sxml_to_html(e)
+    b: bytes = etree.tostring(e, pretty_print = True, encoding='utf-8')
+    with open(os.path.join(root, 'atom.xml'), 'wb+') as f:
+        f.write(b)
+
 def build_site(root: str):
     makedir_p(f'{root}/')
     os.system(f"cp style.css {root}/")
@@ -278,6 +307,7 @@ def build_site(root: str):
         build_page(kwargs['html_str'], kwargs['metadata'], kwargs['out'], kwargs['inp'], kwargs['others'])
 
     metadatas = kwargss
+    create_atom_feed('site', metadatas)
     zh_metadatas = [v for v in metadatas if v['metadata']['lang'] == 'zh']
     create_home(zh_metadatas, 'site/zh/index.html', 'zh')
     en_metadatas = [v for v in metadatas if v['metadata']['lang'] == 'en']
