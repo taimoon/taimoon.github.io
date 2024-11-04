@@ -27,3 +27,7 @@ header nav li {
     list-style: none;
     margin: 0.5em;
 }
+
+footer a {
+    padding: 0em 0.5em; /* Padding around the links */
+}
