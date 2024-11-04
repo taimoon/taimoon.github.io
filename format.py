@@ -262,7 +262,8 @@ def create_atom_feed(root: str, metadatas: list[dict[str, json_ty]]) -> None:
      ['link', {'href': 'https://tengman.moe/'}],
      *[atom_feed_entry_sxml(md['metadata']['title'],
                       md['metadata']['author'],
-                      f'https://tengman.moe/{md['url']}',
+                      # WORKAROUND
+                      f'https://tengman.moe{md['url']}',
                       md['metadata']['lang']) for md in metadatas]
     ]
     e = sxml_to_html(e)
