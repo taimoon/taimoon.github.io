@@ -20,34 +20,36 @@ A type categorizes a set of values
 
 # Instant benefit of annotating type
 When annotated, modern IDE can do these
-- Show documentation when hover over the annotated expression and suggest applicable method for the annotated expression
+Show documentation when hover over the annotated expression and suggest applicable method for the annotated expression
 
-  ![without pylance](without-pylance.png)
+![without pylance](without-pylance.png)
 
-  Without annotation
-    
-  ![with pylance](with-pylance.png)
-    
-  Annotated
-    
-  ![show documentation](show-doc.png)
+Without annotation
+  
+![with pylance](with-pylance.png)
+  
+Annotated
+  
+![show documentation](show-doc.png)
     
   showing documentation for string type
-- type annotations is better than doc string, also a form of contract between caller and callee.
+type annotations is better than doc string, also a form of contract between caller and callee.
   
-  ![self documentation](self-documentation.png)
+![self documentation](self-documentation.png)
   
-  Above showing the type signature of `extract_brn` function, writer can read it and call the function legally.
-    ```
-    extract_brn(123)
-    extract_brn(None)
-    extract_brn(true)
-    ```
-  When caller did these above,
-  we may assume it will go wrong.
-  Because the function `extract_brn` assume its first parameter is string type,
-  and if the program break this assumption by passing arguments of different type,
-  then the function implementer offer no guarantee in ensure correctness.
+Above showing the type signature of `extract_brn` function, writer can read it and call the function legally.
+
+```py
+extract_brn(123)
+extract_brn(None)
+extract_brn(true)
+```
+
+When caller did these above,
+we may assume it will go wrong.
+Because the function `extract_brn` assume its first parameter is string type,
+and if the program break this assumption by passing arguments of different type,
+then the function implementer offer no guarantee in ensure correctness.
 
 # How to get the type of program?
 ```py
