@@ -21,6 +21,9 @@ NAVS = {
     }
 }
 
+CC_LICENSE = {'CC BY-NC-SA 4.0': "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+              'CC BY-SA 4.0': "https://creativecommons.org/licenses/by-sa/4.0/",}
+
 LANG_NAMES = {
     'zh' : '中文',
     'en' : 'English',
@@ -181,14 +184,13 @@ def templatize(e: etree._Element, title: str, date: str, license: str, lang: str
                 *[['li',['a',{'href':lnk},txt]] for txt, lnk in NAVS[lang].items()],
                 *[['li', ['a', {'href': lnk}, LANG_NAMES[lang]]] for lang, lnk in others.items()]]],]
     
-    if license == 'CC BY-SA 4.0':
+    license_url = CC_LICENSE.get(license, '')
+    if license_url != '':
         footer = ['footer',
-            ['a', {'href' : "https://creativecommons.org/licenses/by-sa/4.0/"}, f'COPYRIGHT NOTICE: {license}']
-        ]
+                  ['a', {'href' : license_url}, f'COPYRIGHT NOTICE: {license}']]
     else:
         footer = ['footer', 
-            ['p', f'COPYRIGHT NOTICE: {license}']
-        ]
+                  ['p', f'COPYRIGHT NOTICE: {license}']]
     footer.extend(
         [['a', {'href': lnk}, txt] for txt, lnk in CONTACT.items()]
     )

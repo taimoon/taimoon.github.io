@@ -29,5 +29,7 @@ header nav li {
 }
 
 footer a {
-    padding: 0em 0.5em; /* Padding around the links */
+    /* Padding around the links */
+    display: flexbox;
+    padding: 0em 0.25em;
 }
