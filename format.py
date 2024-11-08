@@ -148,15 +148,25 @@ def templatize(e: etree._Element, title: str, date: str, license: str, lang: str
     # add syntax highlighting
     if e.xpath('//code') != []:
         head.extend([
-            ['link', {'rel': 'stylesheet', 'href': 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css'}],
+            ['link', {'rel': 'stylesheet', 'href': 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/default.min.css'}],
             ['script', {'id': 'ajax-highlight',
                         'defer': '',
-                        'src': 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js'},
+                        'src': 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js'},
+             ''],
+            ['script', {'id': 'ajax-highlight-scheme',
+                        'defer': '',
+                        'src': 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/scheme.min.js'},
              ''],
             ['script', 
              """
               document.addEventListener('DOMContentLoaded', function() {
                     var element = document.getElementById('ajax-highlight');
+                    if (element) {
+                        hljs.highlightAll();
+                    }
+                });
+              document.addEventListener('DOMContentLoaded', function() {
+                    var element = document.getElementById('ajax-highlight-scheme');
                     if (element) {
                         hljs.highlightAll();
                     }
