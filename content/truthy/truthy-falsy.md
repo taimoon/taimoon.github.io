@@ -1,5 +1,5 @@
 ---
-title: Truthy Falsy Does Not Tatse Well
+title: Truthy Falsy Does Not Taste Well
 author: Leong Teng Man
 date: 2024-11-09
 tags:
@@ -12,7 +12,7 @@ category: PL
 license: CC BY-SA 4.0
 lang: en
 ---
-# Truthy Falsy Does Not Tatse Well
+# Truthy Falsy Does Not Taste Well
 
 Though I never taste trutti frutti flavour but never know that quite some songs [^songs] name have trutti frutti, they are good uwu
 
