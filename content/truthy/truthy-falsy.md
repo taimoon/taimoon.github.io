@@ -382,7 +382,7 @@ We may use `=>` in `cond`, to make use of return result from `assoc`
         (else (error "apply-env" "unbound" x))))
 ```
 
-It works because `assoc` return `#f` if no matches found,
+It works because `assoc` return `#f` if no matches found which then proceed to else part,
 otherwise if matched, it returns a list of two objects whose second object is the corresponding value for the key `x`.
 
 Suppose a tutorial scheme compiler implementation, the `uniquify` pass transforms `sexp` input program to an intermediate representation.
@@ -603,7 +603,7 @@ Idiomatic python use `is` if the objects are singletons.
 That's why the program here use `is` to test if `None`.
 
 # Reference
-- PEP 308 – Conditional Expressions, [https://peps.python.org/pep-0308/](https://peps.python.org/pep-0308/)
+- PEP 308 - Conditional Expressions, [https://peps.python.org/pep-0308/](https://peps.python.org/pep-0308/)
 - PEP 285 - Adding a bool type, [https://peps.python.org/pep-0285/](https://peps.python.org/pep-0285/)
 - [Python-Dev] "and" and "or" operators in Py3.0, [https://mail.python.org/pipermail/python-dev/2005-September/056846.html](https://mail.python.org/pipermail/python-dev/2005-September/056846.html)
 - [Python-Dev] Conditional Expression Resolution, [https://mail.python.org/pipermail/python-dev/2005-September/056510.html](https://mail.python.org/pipermail/python-dev/2005-September/056510.html)
@@ -616,6 +616,6 @@ That's why the program here use `is` to test if `None`.
 
 [^songs]: Song names that contains Trutti Frutti:
 Little Richard ([https://www.youtube.com/watch?v=NnIIvWnpaBU](https://www.youtube.com/watch?v=NnIIvWnpaBU)),
-Elvis Presley ([https://youtu.be/gKCz_4YV0YY?si=6K04hKlMKQ7Z0rTz](https://youtu.be/gKCz_4YV0YY?si=6K04hKlMKQ7Z0rTz)),
+Elvis Presley ([https://youtu.be/zCulj2AbOGc?si=moQskeKm-HUXYv9V](https://youtu.be/zCulj2AbOGc?si=moQskeKm-HUXYv9V)),
 Queen ([https://youtu.be/y78OOarDPic?si=0bw_Mp0dD5WXrg3Z](https://youtu.be/y78OOarDPic?si=0bw_Mp0dD5WXrg3Z)),
-Caramella Girls ([https://youtu.be/zCulj2AbOGc?si=moQskeKm-HUXYv9V](https://youtu.be/zCulj2AbOGc?si=moQskeKm-HUXYv9V))
+Caramella Girls ([https://youtu.be/gKCz_4YV0YY?si=6K04hKlMKQ7Z0rTz](https://youtu.be/gKCz_4YV0YY?si=6K04hKlMKQ7Z0rTz))
