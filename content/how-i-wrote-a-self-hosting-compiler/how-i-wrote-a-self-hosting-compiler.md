@@ -294,6 +294,12 @@ in non-functional programming language.
 EOPL is a great prerequisite to TAPL since TAPL contains chapters implementing type system
 which you have learn from EOPL.
 
+# Why self-hosting compiler?
+
+Bootstrapping is like a litmus paper that test whether compiler can compile complex program without bug.
+It is a form of integration testing to the compiler.
+Since compiler is a complex piece of software.
+
 # Sequel
 
 I only have the time writing this article after I have done my scheme interpreter using C.
@@ -303,7 +309,7 @@ The implementation relies on CPS technique heavily.
 
 
 # Reference
-- [http://scheme2006.cs.uchicago.edu/11-ghuloum.pdf](http://scheme2006.cs.uchicago.edu/11-ghuloum.pdf)
+- [https://www.schemeworkshop.org/2006/11-ghuloum.pdf](https://www.schemeworkshop.org/2006/11-ghuloum.pdf)
 - [https://eopl3.com/](https://eopl3.com/)
 - [https://www.cis.upenn.edu/~bcpierce/tapl/](https://www.cis.upenn.edu/~bcpierce/tapl/)
 - Workshop: Mixing Mutability into the Nanopass Framework - [https://www.youtube.com/watch?v=wTGlKCfP90A](https://www.youtube.com/watch?v=wTGlKCfP90A)
