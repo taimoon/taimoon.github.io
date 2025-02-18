@@ -21,8 +21,6 @@ xe = ex = e \\\\
 x(yz) = (xy)z
 $$
 
-*testing*
-
 ---
 [^1]: this is a footer note for *sample*
 [^two]: why having another footer
