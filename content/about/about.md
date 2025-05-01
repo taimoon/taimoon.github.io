@@ -8,7 +8,11 @@ license: © 2024 Leong Teng Man. All rights reserved.
 lang: en
 ---
 # About
-Greetings, I'm Teng Man.
-I'm currently working as a data engineer.
-I'm Data analytic gradaute from Universiti Malaysia Pahang Al-Sultan Abdullah (UMPSA).
-I like to design and implement programming languages.
+
+- Greetings
+- Mantra: workaround
+- Despite something, Teng Man is still Teng Man.
+- I like to design and implement programming languages.
+- Working as software validation engineer in QA department.
+- Previously, I was a data engineer specializing in ETL.
+- Data analytic graduate from Universiti Malaysia Pahang Al-Sultan Abdullah (UMPSA).
